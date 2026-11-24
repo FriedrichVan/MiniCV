@@ -1,4 +1,9 @@
+/**
+ * @copyright 2026 Zheyu Ji <https://github.com/FriedrichVan>
+ * @brief This is derived policy of BorderPolicy. It returns the pixel at border if a further pixel was fetched.
+ */
 #include "border/ZeroBorder.h"
+#include "border/ClampBorder.h"
 #include "core/Image.h"
 #include <algorithm>
 

@@ -1,3 +1,7 @@
+/**
+ * @copyright 2026 Zheyu Ji <https://github.com/FriedrichVan>
+ * @brief This is derived policy of BorderPolicy. It returns the pixel at border if a further pixel was fetched.
+ */
 #pragma once
 #include "border/BorderPolicy.h"
 
