@@ -26,7 +26,7 @@ template <typename T> [[nodiscard]] std::vector<double> normalize(const std::vec
 }
 
 template <typename T> [[nodiscard]] std::vector<double> normalize(const std::vector<T>& input){
-    return normalize(input, 1, 0);
+    return normalize(input, 1.0);
 }
 
 }

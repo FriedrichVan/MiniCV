@@ -81,7 +81,7 @@ Image Image::loadPGM(const std::string& filepath){
     }
     std::string tag;
     file >> tag;
-    if(tag != "p2" || "p5"){
+    if(tag != "P2" && tag != "P5"){
         throw std::runtime_error("no valid tag! It should be P2 or P5!");
     }
     skipWhitespaceAndComment(file);
@@ -106,7 +106,8 @@ Image Image::loadPGM(const std::string& filepath){
     } else if (tag == "P5") {
         file.get();
         int total = width * height;
-        std::vector<std::uint8_t> buf(total);
+        std::vector<std::uint8_t> buf;
+        buf.reserve(total);
         file.read(reinterpret_cast<char*>(buf.data()),total);
         for (std::uint8_t v : buf){
             data.push_back(static_cast<double>(v));
@@ -118,17 +119,16 @@ Image Image::loadPGM(const std::string& filepath){
 void Image::savePGM(const std::string& filepath) const{
     int width = Image::getWidth();
     int height = Image::getHeight();
-    if(width || height <= 0){
+    if(width <= 0 || height <= 0){
         throw std::invalid_argument("width or height is illegal!");
     }
     std::ofstream file(filepath, std::ios::binary);
     file << "P5\n" << width << ' ' << height << "\n255\n";
-    std::vector<std::uint8_t> buf(getSize());
+    std::vector<std::uint8_t> buf;
+    buf.reserve(getSize());
     for(double v: getData()){
-        clamp(v, 0.0, 255.0);
-        std::lround(v);
-        static_cast<std::uint8_t>(v);
-        buf.push_back(v);
+        const double clamped = clamp(v, 0.0, 255.0);
+        buf.push_back(static_cast<std::uint8_t>(std::lround(clamped)));
     }
     file.write(reinterpret_cast<const char*>(buf.data()), static_cast<std::streamsize> (buf.size()));
 }
